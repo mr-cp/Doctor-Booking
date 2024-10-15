@@ -20,6 +20,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   Future<void> _refreshList() async {
     await Future.delayed(const Duration(seconds: 2));
+   print(homeController.token);
   }
 
   final homeController = Get.put(HomeController());

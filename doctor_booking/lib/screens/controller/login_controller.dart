@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:doctor_booking/service/app_services.dart';
 import 'package:flutter/material.dart';
@@ -7,19 +8,13 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../service/local_storage.dart';
+
 class LoginController extends GetxController {
   final formKey = GlobalKey<FormState>();
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
-// Email validation::::::::::::::
-  bool isValidEmail(String email) {
-    final RegExp regex = RegExp(
-      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-    );
-    return regex.hasMatch(email);
-  }
 
   // Login post function::::::::::
   bool isLoading = false;
@@ -46,8 +41,9 @@ class LoginController extends GetxController {
         if (jsonResponse['status'] == true) {
           Get.toNamed('/home');
           String token = jsonResponse['token'];
-          print(token);
-          saveToken(token);
+          await LocalStorage.saveToken(token);
+          isLoading = false;
+          update();
         } else {
           Get.snackbar(
             "Login Failed",
@@ -69,23 +65,7 @@ class LoginController extends GetxController {
         );
       }
     } catch (e) {
-      print("Error occurred: $e");
+      log("Error occurred: $e");
     }
-  }
-
-  // set token:::::::
-  Future<void> saveToken(String token) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('token', token);
-    print("Token saved: $token");
-  }
-
-  // get token:::::::
-  Future<String?> getToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
-    // print("Retrieved token: $token");
-
-    return token;
   }
 }

@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Country Cue',
-        initialRoute: '/register',
+        initialRoute: '/',
         getPages: [
           GetPage(name: '/', page: () => const SplashScreen()),
           GetPage(name: '/login', page: () => const LoginScreen()),
