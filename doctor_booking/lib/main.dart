@@ -6,10 +6,16 @@ import 'screens/view/home_screen.dart';
 import 'screens/view/login_screen.dart';
 import 'screens/view/splash_screen.dart';
 import 'service/connectivity_injection.dart';
+import 'service/local_storage.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await LocalStorage.init();
+
   ConnectivityInjection.init();
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
