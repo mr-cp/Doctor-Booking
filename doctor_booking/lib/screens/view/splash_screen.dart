@@ -20,7 +20,7 @@ class SplashScreenState extends State<SplashScreen> {
   }
 
   void _navigateToHome() {
-    Timer(const Duration(seconds: 4), () {
+    Timer(const Duration(seconds: 3), () {
       Get.offNamed('/login');
     });
   }
